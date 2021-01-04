@@ -1,6 +1,6 @@
 <template>
   <div class="docs-demo-wrapper">
-    <div :style="{height: isExpand ? 'auto' : '0'}" class="demo-container">
+    <div :style="{ height: isExpand ? 'auto' : '0' }" class="demo-container">
       <div span="14">
         <div class="docs-demo docs-demo--expand">
           <div class="highlight-wrapper">
@@ -9,7 +9,9 @@
         </div>
       </div>
     </div>
-    <span class="docs-trans docs-demo__triangle" @click="toggle">{{isExpand ? '隐藏代码' : '显示代码'}}</span>
+    <span class="docs-trans docs-demo__triangle" @click="toggle">{{
+      isExpand ? '隐藏代码' : '显示代码'
+    }}</span>
   </div>
 </template>
 
@@ -19,14 +21,14 @@ import Vue from 'vue'
 export default {
   data() {
     return {
-      isExpand: false
+      isExpand: false,
     }
   },
   methods: {
     toggle() {
       this.isExpand = !this.isExpand
-    }
-  }
+    },
+  },
 }
 </script>
 
@@ -132,4 +134,3 @@ export default {
   }
 }
 </style>
-

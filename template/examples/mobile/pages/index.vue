@@ -2,27 +2,33 @@
   <div>
     <div class="mobile-demo-menu">
       <div class="mobile-demo-menu__title">
-        <p class="mobile-demo-menu__title__main">VueCards</p>
-        <p class="mobile-demo-menu__title__meta">移动端预览</p>
+        <p class="mobile-demo-menu__title__main"> VueCards </p>
+        <p class="mobile-demo-menu__title__meta"> 移动端预览 </p>
       </div>
-      <div v-for="title in (Object.keys(navConf))" :key="title">
-        <div class="group-container" v-if="title !== '开发指南'">
-          <p class="side-nav-title" v-if="title !== '组件'">{{title}}</p>
-          <div class="side-nav-items" v-for="nav in navConf[title]" :key="nav.name">
+      <div v-for="title in Object.keys(navConf)" :key="title">
+        <div v-if="title !== '开发指南'" class="group-container">
+          <p v-if="title !== '组件'" class="side-nav-title">
+            {{ title }}
+          </p>
+          <div v-for="nav in navConf[title]" :key="nav.name" class="side-nav-items">
             <template v-if="nav.desc">
               <router-link
-                :class="$route.name === nav.name ? 'active' : ''"
                 v-if="nav.name"
-                :to="{name: nav.name}"
-              >{{nav.desc}}</router-link>
-              <p v-else class="side-nav-group">{{nav.desc}}</p>
+                :class="$route.name === nav.name ? 'active' : ''"
+                :to="{ name: nav.name }"
+              >
+                {{ nav.desc }}
+              </router-link>
+              <p v-else class="side-nav-group">
+                {{ nav.desc }}
+              </p>
               <div v-for="item in nav.items" :key="item.name" class="side-nav-component-wrap">
                 <router-link
-                  :to="{name: item.name}"
+                  :to="{ name: item.name }"
                   :class="$route.name === item.name ? 'active' : ''"
                   class="side-nav-component"
                 >
-                  <span class="en-name">{{item.desc}}</span>
+                  <span class="en-name">{{ item.desc }}</span>
                 </router-link>
               </div>
             </template>
@@ -35,11 +41,11 @@
 <script>
 import navConf from '../../nav.config.json'
 export default {
-  data () {
+  data() {
     return {
-      navConf
+      navConf,
     }
-  }
+  },
 }
 </script>
 <style lang="scss" scoped>
@@ -52,8 +58,7 @@ export default {
     padding-top: 30px;
     &__main {
       font-size: 23px;
-      font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial,
-        sans-serif;
+      font-family: 'Dosis', 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
     }
     &__meta {
       font-size: 14px;
