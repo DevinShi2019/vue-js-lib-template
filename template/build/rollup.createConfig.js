@@ -15,17 +15,24 @@ const simplevars = require('postcss-simple-vars')
 const nested = require('postcss-nested')
 const cssnext = require('postcss-cssnext')
 const fs = require('fs')
-
+const components = require('../packages/components/component.json')
+const modules = require('../packages/module.json')
 const copy = require('rollup-plugin-copy')
 // const copy = require('rollup-plugin-copy-assets')
 const svgSpriteLoader = require('rollup-svg-sprite-loader')
-
-const { getAssetsPath, env, fsExistsSync, chalkConsole } = require('./utils')
+const { getAssetsPath, env, fsExistsSync, chalkConsole, createExternal } = require('./utils')
 const { esDir } = require('../config/rollup.build.config')
 const aliasConfig = require('../config/alias')
 const { styleOutputPath, externalMap } = require('../config/index')
 const banner = require('../config/banner')
 const isEs = (fmt) => fmt === esDir
+
+const moduleMap = {...modules, ...components}
+const _external = Object.keys(moduleMap).map(moduleName => `${prefix}/${moduleMap[moduleName]}`)
+const _paths = {};
+Object.keys(moduleMap).forEach(moduleName => {
+  _paths[`${prefix}/${moduleMap[moduleName]}`] = `./${moduleName}`
+})
 
 function createPlugins(config) {
   const exclude = 'node_modules/**'
@@ -111,7 +118,7 @@ async function buildEntry(config) {
 
   const inputOptions = {
     input,
-    external: Object.keys(externalMap),
+    external: createExternal(external_ingore, _external),
     plugins: createPlugins(config),
   }
   const fullName = output + suffix
@@ -122,7 +129,8 @@ async function buildEntry(config) {
     format,
     name: moduleName,
     // exports: 'named',
-    globals: externalMap,
+    // globals: externalMap,
+    paths: _paths
     // entryFileNames: file
   }
   const bundle = await rollup.rollup(inputOptions)

@@ -2,7 +2,36 @@
 
 [文档地址](https://juejin.im/post/5d7860b0f265da03bc12a3d2)
 
-
+## 按需引入配置
+路径必须已packages开口，不可以忽略index文件名
+### component.json (配置需要按需引入的插件)
+```
+{
+  "x-svg-icon": "packages/components/x-svg-icon/index"
+}
+```
+### 相关配置 (config/index.js)
+```
+{
+  // 外链忽略（默认将所有的node_modules中的包配置为外链，但存在一个特殊的包不支持这样的默认设置，在这里单独配置，key为包名，value为是否为外链）
+  external_ingore: {  
+    '@antv/x6': true,
+    'vue': false
+  },
+  // 库前缀，引入公共模块需要
+  prefix: 'x-dcloud-bpm'
+}
+```
+## module.json (公共模块配置单独打包)
+```
+{
+  "bpmn-utils": "packages/utils/index"
+}
+```
+### 引入
+```
+import { validate } from 'x-dcloud-bpm/packages/utils/index'
+```
 ## 安装依赖
 ```
 yarn install

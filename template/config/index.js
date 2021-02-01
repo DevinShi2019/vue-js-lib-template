@@ -6,12 +6,11 @@ module.exports = {
   styleOutputPath: 'theme',
   outputPath: 'lib',
   clearConsole: config.clearConsole,
-  // 打包忽略
-  externalMap: {
-    vue: 'Vue',
-    lodash: 'lodash',
-    axios: 'axios',
-    'element-ui': 'element-ui',
-    'xx-element-ui': 'xx-element-ui',
-  }
+  // 外链忽略
+  external_ingore: {
+    '@antv/x6': true,
+    'vue': false
+  },
+  // 前缀
+  prefix: 'x-dcloud-bpm'
 }

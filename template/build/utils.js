@@ -39,5 +39,22 @@ module.exports = {
   },
   convertHtml: function (str) {
     return str.replace(/(&#x)(\w{4});/gi, $0 => String.fromCharCode(parseInt(encodeURIComponent($0).replace(/(%26%23x)(\w{4})(%3B)/g, '$2'), 16)))
+  },
+  createExternal: function (ingoreMap, _external) {
+    return function (modulePath) {
+      let ingoreKey = Object.keys(ingoreMap).find(ingore => modulePath.match(ingore))
+      if (ingoreKey) {
+        return ingoreMap[ingoreKey]
+      }
+      var external = true;
+      if (path.isAbsolute(modulePath)) {
+        if (!modulePath.match(/node_modules/)) {
+          external = false;
+        }
+      } else {
+        external = _external.includes(modulePath);
+      }
+      return external;
+    }
   }
 }
